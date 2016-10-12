@@ -8,10 +8,10 @@ Each physical sensor attached to the Pi has a matching virtual sensor in SmartTh
 
 In the SmartThings IDE:
 
-1) Create device handlers for VirtualContactSensor and VirtualMotionSensor
-2) Create devices for each sensor
-3) Create device handler for Pi using Nicholas Wilde's device handler - https://github.com/nicholaswilde/berryio-smartthings/blob/master/devicetypes/nicholaswilde/raspberry-pi.src/raspberry-pi.groovy
-4) Add the following code to the Parse() method of the Pi device handler
+1) Create device handlers for VirtualContactSensor and VirtualMotionSensor  
+2) Create devices for each sensor  
+3) Create device handler for Pi using Nicholas Wilde's device handler - https://github.com/nicholaswilde/berryio-smartthings/blob/master/devicetypes/nicholaswilde/raspberry-pi.src/raspberry-pi.groovy  
+4) Add the following code to the Parse() method of the Pi device handler  
 
 ```
 if (result.containsKey("zone")) {
@@ -19,13 +19,13 @@ if (result.containsKey("zone")) {
     sendEvent (name:result.zone, value:actions[result.state], isStateChange:true)
 }
 ```
-5) Create smart app for Pi Sensor Monitor
-6) Add device for the Pi and link to SmartThings
-7) Set Device Network Id to the mac address of the Pi and comment out line 209 of the Pi device handler (which resets the device network id)
+5) Create smart app for Pi Sensor Monitor  
+6) Add device for the Pi and link to SmartThings  
+7) Set Device Network Id to the mac address of the Pi and comment out line 209 of the Pi device handler (which resets the device network id)  
 8) Configure Pi to send HTTP Post messages to SmartThings when zone status changes  
 This can be done via the cloud, UPnP, or directly to the ST hub via HTTP. For simplicity I am posting directly to the hub. For this to work you need the IP and port of the hub, whhich can be retrieved from the IDE. The post is picked up by the device handler's Parse method so long as the device network id matches the MAC address that the request is coming from.  
 The data sent should be a json string in the format { zone: "zone1", state: 0 }  
-The device handler currently maps state 0 to open, and states 1, 2 & 3 to closed. States 2 & 3 are intended for future use to indicate faults.
+The device handler currently maps state 0 to open, and states 1, 2 & 3 to closed. States 2 & 3 are intended for future use to indicate faults.  
 
 
 ## Limitations:
